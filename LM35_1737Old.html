@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+
+    <style>
+
+    .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+                width:6em;
+                height:4em; 
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+
+    #redLED {background-color: red;}
+    #yellowLED {background-color: yellow;}
+    #greenLED {background-color: green;}
+
+    </style>
+</head>
+<body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+     <h1 class = "c">Remote Monitoring LM35</h1>
+            </div></div>
+  <div class="row">
+  <div class="col-sm-12">
+    <label>Time</label>
+  <button id = "time">0</button>
+  <label>Temp</label>
+  <button id = "temp">0</button>
+  <label>Max</label>
+  <button id = "max">0</button>
+  <label>Min</label>
+  <button id = "min">0</button> 
+  <label>Mean</label>
+  <button id = "avg">0</button>
+  <label>Count</label>
+  <button id = "cnt">0</button>
+  <button id = "stop">Stop</button>
+ 
+  </div></div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Shows the temperature at the location of LM35_1737. It does this by analysing the dweets associated with "Thing" LM35_1737</p>
+          </div></div>  
+      </div>
+      <div id = "myChart"></div>
+
+<script>
+
+dataX = [];
+dataY = [];
+maxY = 0;
+minY = 99;
+t = 0;
+cnt = 0;
+//lineGraph();
+fiveMinutes = 1*60*1000
+setInterval(displayData, fiveMinutes);
+
+
+function displayData() {
+ // console.log("");
+/*
+dweetio.get_all_dweets_for("my-thing", function(err, dweets){
+
+
+    // Dweets is an array of dweets
+    for(theDweet in dweets)
+    {
+        var dweet = dweets[theDweet];
+
+
+        console.log(dweet.thing); // The generated name
+        console.log(dweet.content); // The content of the dweet
+        console.log(dweet.created); // The create date of the dweet
+    }
+
+
+*/
+
+
+ dweetio.get_latest_dweet_for("LM35_1737", function(err, dweet){
+dweet = dweet[0]; // Dweet is always an array of 1
+dweetName = dweet.thing;
+console.log(dweet.thing); // The generated name
+//console.log(dweet.content); // The content of the dweet
+console.log(dweet.content); // The content of the dweet
+latestTemperature = parseInt(dweet.content["temp"]);
+latestTime = dweet.content["time"];
+if (latestTemperature > maxY) {maxY = latestTemperature;}
+if (latestTemperature < minY){minY = latestTemperature;}
+// alert(dweet.content + dweet.content["temp"]);
+$('#time').text(latestTime);
+$('#temp').text(latestTemperature);
+t += parseInt(latestTemperature);
+cnt++;
+dataX.push(latestTime);
+dataY.push(latestTemperature);
+console.log(latestTime,latestTemperature)
+
+console.log(cnt);
+console.log("minMax");
+console.log(minY,maxY,dataY);
+lineGraph(dataX,dataY);
+$('#cnt').text(cnt);
+avg = Math.round(t/cnt,1);
+$('#avg').text(avg);
+
+$('#min').text(minY);
+$('#max').text(maxY);
+  $.post("writeRoom.php", 
+        { myData: "time":latestTime,
+                   "temp":latestTemperature }, function (data, status, jqXHR) {
+                        $("p").append("status: " + status + ", data: " + data);
+                 });
+                
+
+})
+
+
+}
+
+
+
+ 
+</script>
+
+
+
+</body>
+</html>
+
+
+<script>
+
+
+$(document).ready(function(){
+$('#update').on('click', function(){
+
+
+    
+   
+/*
+            dweetio.get_latest_dweet_for("LM35_1737", function(err, dweet){
+    dweet =  dweet[0];
+dweetName = dweet.thing;
+console.log(dweet.thing); // The generated name
+console.log(dweet.content); // The content of the dweet
+// console.log(dweet.content["temp"]); // The content of the dweet
+// alert(dweetName +' ' + dweet.content["red"]);
+
+latestTemperature = dweet.content["temp"];
+// alert(dweet.content);
+$('#temp').text(latestTemperature);
+console.log("Hello");
+        
+        })
+
+*/
+
+
+     })
+    })
+    
+</script>
+
+
+
+
+
+<script>
+
+
+      $(document).ready(function(){
+     $('#stop').on('click', function(){
+    
+console.log("stop");
+        alert("stopping");
+        clearInterval();
+       window.stop(); 
+
+
+
+
+     })
+    })
+    
+</script>
+
+
+<script type="text/javascript">
+
+function lineGraph(xData,yData)
+{
+       TESTER2 = document.getElementById('myGraph');
+       var layout = {
+    title: 'Room temperature',
+    xaxis: {type: 'category',title:'Time'},
+    yaxis:{title:"Temperature",range: [0, 50]},
+    showlegend: false
+};
+    var trace1 = {
+ x: xData,
+  y: yData,
+  type: 'scatter'
+};
+
+var dataGraph = [trace1];
+
+Plotly.newPlot('myChart', dataGraph,layout);
+}
+</script>
+
+<script>
+    
+
+</script>
+

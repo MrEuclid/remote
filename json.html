@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+
+</head>
+<body>
+    <h2>JSON<button id = "go">Go</button></h2>
+</body>
+</html>
+<script>
+function data()
+{
+
+    dataX = [];
+    dataY =[]
+$.get("readRoom.php", function(dataRead){
+  alert("Data: read " + dataRead);
+  //console.log("Read data",dataRead);
+  dataRead = JSON.parse(dataRead);
+  l = dataRead.length;
+  console.log("l",l)
+  for (i = 0;  i < l ; i++)
+  {
+  x = dataRead[i][2]; // date stamp
+  y = dataRead[i][1];
+  dataX.push(x);
+  dataY.push(y);
+  }
+  console.log(dataX);
+  console.log(dataY);
+})
+}
+</script>
+
+<script>
+    $(document).ready(function(){
+     $('#go').on('click', function(){
+    
+console.log("go");
+   data();  
+     })
+    })  
+
+</script>

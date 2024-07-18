@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+
+    <style>
+
+    .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+                width:6em;
+                height:4em; 
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+
+    #redLED {background-color: red;}
+    #yellowLED {background-color: yellow;}
+    #greenLED {background-color: green;}
+
+    </style>
+</head>
+<body>
+        <div class="container">
+     <h1 class = "c">RemoteControl</h1>
+
+  <button id = "redLED">OFF</button>
+  <button id = "yellowLED">OFF</button>
+  <button id = "greenLED">OFF</button>
+
+     
+        <div class="row">
+          <div class="col-sm-4">
+            <h3>Column 1</h3>
+            <p>Click on the buttons to send a dweet which will be read using Python code on a Raspberry Pi and then sending it to an Arduino, to which the LEDs are connected.</p>
+          </div>
+          <div class="col-sm-4">
+            <h3>Column 2</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+          </div>
+          <div class="col-sm-4">
+            <h3>Column 3</h3>        
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+          </div>
+        </div>
+      </div>
+
+
+
+
+</body>
+</html>
+
+<script>
+      $(document).ready(function(){
+
+        redValue = $('#redLED').text();
+        yellowValue =  $('#yellowLED').text();
+        greenValue =  $('#greenLED').text();
+        dweetio.dweet_for('PIO1737',{ red:0,
+                                      yellow:0,
+                                      green:0},
+                         function(err, dweet){
+dweetName = dweet.thing;
+console.log(dweet.thing); // The generated name
+console.log(dweet.content); // The content of the dweet
+// alert(dweetName +' ' + dweet.content["red"]);
+
+
+        })
+})
+    
+    
+</script>
+
+<script>
+      $(document).ready(function(){
+     $('[id$=LED]').on('click', function(){
+      bid = this.id;
+      bText = $('#' + bid).text();
+      if (bText == "OFF") {$('#' +bid).text("ON");}
+      else {$('#' +bid).text("OFF");}
+   //   alert(bid + ' ' + $('#' + bid).text());
+      if (bid == 'redLED')
+      {redValue = $('#redLED').text();}
+      if (bid == 'yellowLED')
+      {yellowValue = $('#yellowLED').text();}
+      if (bid == 'greenLED')
+      {greenValue = $('#greenLED').text();}
+if (redValue == 'OFF'){redStatus = 0;}
+else {redStatus = 1;}
+
+if (yellowValue == 'OFF'){yellowStatus = 0;}
+else {yellowStatus = 1;}
+
+if (greenValue == 'OFF'){greenStatus = 0;}
+else {greenStatus = 1;}
+      dweetio.dweet_for('PIO1737',{ red:redStatus,
+                                    yellow:yellowStatus,
+                                    green:greenStatus},
+                         function(err, dweet){
+dweetName = dweet.thing;
+console.log(dweet.thing); // The generated name
+console.log(dweet.content); // The content of the dweet
+// alert(dweetName +' ' + dweet.content["red"]);
+        
+        })
+
+
+
+
+     })
+    })
+    
+</script>
