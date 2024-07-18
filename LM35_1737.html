@@ -62,20 +62,61 @@
       </div>
       <div id = "myChart"></div>
 
+<script type="text/javascript">
+    function initial(thing)
+    {
+       
+
+    }
+</script>
+
+<script>
+     $(document).ready(function(){
+        dataX = []; // x values;
+        dataY = []; // y values
+        sum = 0 ; // for average
+        n = 0; // counter
+        myThing = "LM35_1737";
+        dweetData = initial(myThing);
+
+        let d = [];
+// get the time of the ;atest tweet for reference
+        dweetio.get_latest_dweet_for("LM35_1737", function(err, dweet){
+        dweet = dweet[0]; // Dweet is always an array of 1
+        dweetName = dweet.thing;
+        dweetTime = dweet.created;
+        dweetContent = dweet.content;
+        console.log(dweet.content);
+        latestTemperature = parseInt(dweet.content["temp"]);
+        latestTime = dweet.content["time"];
+        //console.log(dweet.content); // The content of the dweet
+        console.log(latestTemperature,latestTime); // The content of the dweet
+
+
+        d[0] = latestTime;
+        d[1] = latestTemperature;
+
+        alert(d);
+
+        })
+    })
+
+
+// wait for a new tweet 
+</script>
+<!--
 <script>
 
-dataX = [];
-dataY = [];
 
-t = 0;
 
 // read what is already there
+// read the last dweet only 
 $.get("readRoom.php", function(dataRead){
   dataRead = JSON.parse(dataRead);
   alert(dataRead);
   l = dataRead.length;
   console.log("l",l);
-  sum = 0 ;
+ 
   for (i = 0;  i < l ; i++)
   {
   x = dataRead[i][0];
@@ -265,3 +306,4 @@ Plotly.newPlot('myChart', dataGraph,layout);
 
 </script>
 
+-->
