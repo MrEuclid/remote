@@ -27,4 +27,5 @@ while True:
         print(now);
         print(url)
         print(t)
+        requests.get(url)
         time.sleep(59)

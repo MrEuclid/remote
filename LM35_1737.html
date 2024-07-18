@@ -81,7 +81,7 @@
 
         let d = [];
 // get the time of the ;atest tweet for reference
-        dweetio.get_latest_dweet_for("LM35_1737", function(err, dweet){
+        dweetio.get_latest_dweet_for(myThing, function(err, dweet){
         dweet = dweet[0]; // Dweet is always an array of 1
         dweetName = dweet.thing;
         dweetTime = dweet.created;
@@ -101,6 +101,18 @@
         })
     })
 
+function listen() {
+dweetio.listen_for("LM35_1737", function(dweet){
+
+    // This will be called anytime there is a new dweet for my-thing
+
+  //  alert("New dweet",dweet);
+console.log("new",dweet);
+});
+
+}
+
+let a = listen();
 
 // wait for a new tweet 
 </script>
