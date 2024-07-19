@@ -8,7 +8,7 @@ from datetime import datetime
 port = "/dev/tty.usbmodem14101"
 # port = "COM4"
 baud = 9600
-
+id = input ("studentID" )
 ser = serial.Serial(port, baud, timeout=0)
 
 # default timeout = none
@@ -34,7 +34,7 @@ while True:
         minute = now.strftime("%M") 
         t = hour +'-'+minute
    
-        url = "https://dweet.io/dweet/for/LM35_1737?temp=" + tempstr + "&time="+t
+        url = "https://dweet.io/dweet/for/LM35_" + id +"?temp=" + tempstr + "&time="+t
         print(now);
         print(url)
         print(t)
