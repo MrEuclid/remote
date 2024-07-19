@@ -3,40 +3,27 @@
 include "connectDatabaseRemote.php";
 
 // $ymd = $_POST["yearMonthDay"];
-// $hm = $_POST["hourMinute"];
-$temp = $_POST["latestTemperature"];
+ $hm = $_POST["hourMinute"];
+ $temp = $_POST["temperature"];
 
 
-/*
-$ymd = "2024-01-31";
-$hm = "12-34";
-$temp = 34;
-*/
+
+// $hm = "12-34";
+// $temp = 34.397;
+
 
 
 $output = [];
 $i = 0;
-$query = "INSERT INTO myRoom (temperature) 
-VALUES ('$temp')";
+$query = "INSERT INTO myRoom (hourMinute,temperature) 
+VALUES ('$hm' ,'$temp')";
 
 // echo "<br>" . $query . "<br>";
 
 mysqli_query($dbServer,$query);
 
-$query = "SELECT 
-			MIN(temperature) AS min,
- 			MAX(temperature) AS max, 
- 			AVG(temperature) AS mean, 
- 			count(id) AS n
-FROM myRoom";
-$result = mysqli_query($dbServer,$query)  ;
-while ($data = mysqli_fetch_row($result))
-{
-	$output[$i] = $data;
-	$i++;
-}
-$n = json_encode($output);
-echo $n;
+
+
 exit();
 
 
