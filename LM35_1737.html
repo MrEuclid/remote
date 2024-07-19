@@ -85,25 +85,53 @@ Plotly.newPlot('myChart', dataGraph,layout);
 }
 </script>
 
-
 <script type="text/javascript">
-    function initial(thing)
-    {
-       
 
-    }
+    function stats(arrayX,arrayY) 
+// receive dataX and dataY
+    {
+       let  l = dataY.length;
+       sum = 0;
+        for (i = 0;  i < l ; i++)
+            {
+                y = dataY[i];
+                sum = Number(y + sum);
+            }
+        cnt = parseInt(Math.max(...arrayX));
+        maxY = parseInt(Math.max(...arrayY));
+        minY = parseInt(Math.min(...arrayY));
+        avg = Math.round(sum/cnt,1);
+        console.log(cnt,maxY,minY,avg);
+        $('#cnt').text(cnt);
+        $('#avg').text(avg);
+        $('#max').text(maxY);
+        $('#min').text(minY);
+        $('#temp').text(arrayY[l-1]); // last reading 
+}
 </script>
 
 <script type="text/javascript">
     function pushData(x,y)
     {
-        dataX.push(x);
+        let readingID = dataX.length;
+        dataX.push(readingID);
         dataY.push(y);
+        if (dataX.length > 1)
+        {stats(dataX,dataY);}
         console.log("X",dataX);
         console.log("Y",dataY);
         lineGraph(dataX,dataY);
     }
 </script>
+
+<script type="text/javascript">
+    function initial(thing)
+    {
+       
+// not needed
+    }
+</script>
+
 
 <script>
      $(document).ready(function(){
@@ -112,7 +140,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
         sum = 0 ; // for average
         n = 0; // counter
         myThing = "LM35_1737";
-        dweetData = initial(myThing);
+      //  dweetData = initial(myThing);
 
         let d = [];
 // get the time of the ;atest tweet for reference
@@ -131,7 +159,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
         d[0] = latestTime;
         d[1] = latestTemperature;
         pushData(d[0],d[1]);
-  $.post("writeRoom.php", { "hourMinute":d[0],"temperature":d[1]});
+        $.post("writeRoom.php", { "hourMinute":d[0],"temperature":d[1]});
         console.log("first one",dweet);
 
         })
