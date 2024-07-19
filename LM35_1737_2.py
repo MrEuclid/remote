@@ -14,18 +14,29 @@ ser = serial.Serial(port, baud, timeout=0)
 # default timeout = none
 # posts dweets every minute
 while True:
+    sum = 0;
+    cnt = 0 ;
     if ser.in_waiting:
         time.sleep(1)
-        temp = ser.readline().strip()
-        tempstring = str(temp)
-        tempstring = temp.decode("utf-8")
+        while cnt < 100:
+            time.sleep(3)
+            temp = ser.readline().strip()
+            tempstring = temp.decode("utf-8")
+            print(tempstring)
+            if str(tempstring) > "10":
+                sum = sum + float(tempstring)
+                cnt = cnt + 1;
+                print(cnt,tempstring,sum,sum/cnt)
+        tempstr = str(sum/cnt)
+        # tempstr = temp.decode("utf-8")
         now = datetime.now()
         hour = now.strftime("%H")
         minute = now.strftime("%M") 
         t = hour +'-'+minute
-        url = "https://dweet.io/dweet/for/LM35_1737?temp=" + tempstring + "&time="+t
+   
+        url = "https://dweet.io/dweet/for/LM35_1737?temp=" + tempstr + "&time="+t
         print(now);
         print(url)
         print(t)
         requests.get(url)
-        time.sleep(59)
+        time.sleep(5)

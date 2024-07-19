@@ -70,6 +70,16 @@
     }
 </script>
 
+<script type="text/javascript">
+    function pushData(x,y)
+    {
+        dataX.push(x);
+        dataY.push(y);
+        console.log("X",dataX);
+        console.log("Y",dataY);
+    }
+</script>
+
 <script>
      $(document).ready(function(){
         dataX = []; // x values;
@@ -96,7 +106,7 @@
         d[0] = latestTime;
         d[1] = latestTemperature;
 
-        alert(d);
+        console.log("first one",dweet);
 
         })
     })
@@ -108,11 +118,16 @@ dweetio.listen_for("LM35_1737", function(dweet){
 
   //  alert("New dweet",dweet);
 console.log("new",dweet);
+ let yt = Number(dweet.content["temp"]);
+ let y parseFloat(yt.toFixed(2));
+ let x = dweet.content["time"];
+pushData(x,y);
+
 });
 
 }
 
-let a = listen();
+listen();
 
 // wait for a new tweet 
 </script>
