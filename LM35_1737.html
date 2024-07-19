@@ -51,8 +51,10 @@
   <button id = "avg">0</button>
   <label>Count</label>
   <button id = "cnt">0</button>
-  <button id = "stop">Stop</button>
- 
+   <label>Download</label>
+   <a href = "downloadLM35.php">
+  <button id = "download">Download</button>
+    </a>
   </div></div>
 
         <div class="row">
@@ -106,6 +108,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
         $('#avg').text(avg);
         $('#max').text(maxY);
         $('#min').text(minY);
+        $('#time').text(l);
         $('#temp').text(arrayY[l-1]); // last reading 
 }
 </script>
