@@ -105,12 +105,13 @@ Plotly.newPlot('myChart', dataGraph,layout);
         maxY = parseInt(Math.max(...arrayY));
         minY = parseInt(Math.min(...arrayY));
         avg = Math.round(sum/l,1);
+
         console.log(cnt,maxY,minY,avg);
         $('#cnt').text(cnt);
         $('#avg').text(avg);
         $('#max').text(maxY);
         $('#min').text(minY);
-        $('#time').text(l);
+       // $('#time').text(startTime);
         $('#temp').text(arrayY[l-1]); // last reading 
 }
 </script>
@@ -118,7 +119,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
 <script type="text/javascript">
     function pushData(x,y)
     {
-
+        $('#time').text(x);
         let readingID = dataX.length;
         dataX.push(readingID);
         dataY.push(y);
@@ -161,6 +162,8 @@ data = JSON.parse(response) ;
 dataX = [];
 dataY =[];
 let l = data.length;
+startTime = data[0].hourMinute;
+$('#time').text(startTime) ;
 console.log(l,data[2].hourMinute,data[2].temperature);
 for (let i = 0; i < l; i++)
 {
@@ -205,7 +208,9 @@ alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
         dweetio.get_latest_dweet_for(myThing, function(err, dweet){
         dweet = dweet[0]; // Dweet is always an array of 1
         dweetName = dweet.thing;
+
         dweetTime = dweet.created;
+         startTime = dweetTime;
         dweetContent = dweet.content;
         console.log(dweet.content);
         latestTemperature = parseInt(dweet.content["temp"]);
