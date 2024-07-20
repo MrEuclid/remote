@@ -53,7 +53,9 @@
   <button id = "cnt">0</button>
    <label>Download</label>
    <a href = "downloadLM35.php">
-  <button id = "download">Download</button>
+  <button id = "download">Download</button></a>
+  <button id = "load">Load data></button>
+
     </a>
   </div></div>
 
@@ -136,15 +138,58 @@ Plotly.newPlot('myChart', dataGraph,layout);
     }
 </script>
 
-<script type="text/javascript">
-    
-    function writeData(thing,x,y)
 
-    {
-       
 
-    }
+
+<script>
+
+    $(document).ready(function(){
+        $('#load').on('click', function(){
+  // ajax to load the database into dataX and dataY
+            alert("Loading");
+   $.ajax({
+    url: 'readRoom.php',
+    type: 'POST',
+   // data: yourData,
+    datatype: 'json'
+})
+.done(function (response) { 
+
+ alert('Getting data') ;
+console.log("response",response,response.length) ;
+data = JSON.parse(response) ;
+dataX = [];
+dataY =[];
+let l = data.length;
+console.log(l,data[2].hourMinute,data[2].temperature);
+for (let i = 0; i < l; i++)
+{
+    let hm = data[i].hourMinute;data;
+    let t = data[i].temperature;
+     let readingID = dataX.length;
+    dataX.push(readingID);
+    dataY.push(t);
+   
+   
+
+}
+ stats(dataX,dataY);
+    console.log("X",dataX);
+        console.log("Y",dataY);
+        lineGraph(dataX,dataY);
+
+}) // ajax success
+
+.fail(function (jqXHR, textStatus, errorThrown) { 
+alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
+
+
+}); // ajax fail
+
+        })
+    })
 </script>
+
 
 
 <script>

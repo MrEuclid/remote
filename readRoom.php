@@ -4,7 +4,7 @@ include "connectDatabaseRemote.php";
 
 // read database and export for use in plotly
 
-$query = "SELECT id,temperature  FROM myRoom ORDER BY id DESC LIMIT 1";
+$query = "SELECT hourMinute ,temperature  FROM myRoom ORDER BY id ";
 $result = mysqli_query($dbServer,$query);
 $data = mysqli_fetch_row($result);
 $output =[];
@@ -13,14 +13,12 @@ $dataY = [];
 $time = [];
 $i = 0 ;
 
-
-	$dataX[$i] = $data[0] ; // id = x
-	$dataY[$i] = $data[1] ; // temperature = y 
-	
-	$output[$i][0] = $data[0];
-	$output[$i][1] = $data[1];
-
-
+WHILE ($data = mysqli_fetch_assoc($result))
+{
+	$output[$i]["hourMinute"] = $data["hourMinute"];
+	$output[$i]["temperature"] = $data["temperature"];
+	$i++;
+}
 
 
 // print_r($output);
