@@ -124,8 +124,8 @@ Plotly.newPlot('myChart', dataGraph,layout);
         dataY.push(y);
         if (dataX.length > 1)
         {stats(dataX,dataY);}
-        console.log("X",dataX);
-        console.log("Y",dataY);
+       // console.log("X",dataX);
+       // console.log("Y",dataY);
         lineGraph(dataX,dataY);
     }
 </script>
@@ -166,6 +166,7 @@ for (let i = 0; i < l; i++)
 {
     let hm = data[i].hourMinute;data;
     let t = data[i].temperature;
+    t = Number(t);
      let readingID = dataX.length;
     dataX.push(readingID);
     dataY.push(t);
@@ -174,9 +175,7 @@ for (let i = 0; i < l; i++)
 
 }
  stats(dataX,dataY);
-    console.log("X",dataX);
-        console.log("Y",dataY);
-        lineGraph(dataX,dataY);
+lineGraph(dataX,dataY);
 
 }) // ajax success
 
