@@ -20,8 +20,8 @@ while True:
     cnt = 0 ;
     if ser.in_waiting:
         time.sleep(1)
-        while cnt < 20:
-            time.sleep(3)
+        while True:
+            time.sleep(1)
             temp = ser.readline().strip()
             tempstring = temp.decode("utf-8")
             # maximum of 2 elements
@@ -29,21 +29,22 @@ while True:
                 x = tempstring.split(",",1)
                 temp = x[0]
                 humid = x[1]
-                print(tempstring,temp,humid)
+                cnt = cnt + 1
+                print(cnt,tempstring,temp,humid)
             except IndexError:
                 print("Error: Index is out of range.")
             x = tempstring.split(",",1)
            
-        now = datetime.now()
-        hour = now.strftime("%H")
-        minute = now.strftime("%M") 
-        t = hour +'-'+minute
-        print(temp,humid)
-        #url = "https://dweet.io/dweet/for/DHT11_1737?temp=" + tempstr + "&humid=" + h +"&time="+t
-        print(now);
-        print(url)
-        print(t)
-        requests.get(url)
-        time.sleep(5)
+            now = datetime.now()
+            hour = now.strftime("%H")
+            minute = now.strftime("%M") 
+            t = hour +'-'+minute
+            print(temp,humid)
+            url = "https://dweet.io/dweet/for/DHT11_1737?temp=" + temp + "&humid=" + humid +"&time="+t
+            print(now);
+            print(url)
+            print(t)
+            requests.get(url)
+            time.sleep(59)
 
 
