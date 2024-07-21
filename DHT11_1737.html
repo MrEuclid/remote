@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- display output from DHT11 -->
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+
+    <style>
+
+    .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+                width:6em;
+                height:4em; 
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+
+    #redLED {background-color: red;}
+    #yellowLED {background-color: yellow;}
+    #greenLED {background-color: green;}
+
+    </style>
+</head>
+<body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+     <h1 class = "c">Remote Monitoring LM35</h1>
+            </div></div>
+  <div class="row">
+  <div class="col-sm-12">
+    <label>Time</label>
+  <button id = "time">0</button>
+  <label>Temp</label>
+  <button id = "temp">0</button>
+    <label>Humidty</label>
+  <button id = "humid">0</button>
+  <label>Humidity</label>
+  <button id = "rangeTemp">0</button>
+  <label>Range humid</label>
+  <button id = "rangeHumid">0</button> 
+  <label>Count</label>
+  <button id = "cnt">0</button>
+   <label>Download</label>
+   <a href = "downloadDHT11.php">
+  <button id = "download">Download</button></a>
+  <button id = "load">Load data</button>
+
+    </a>
+  </div></div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Shows the temperature and humidity at the location of DHT11_1737. It does this by analysing the dweets associated with "Thing" DHT11_1737</p>
+          </div></div>  
+      </div>
+      <div id = "myChart"></div>
+
+<script type="text/javascript">
+ 
+function lineGraph(xData,y1Data,y2Data)
+{
+       TESTER2 = document.getElementById('myGraph');
+       var layout = {
+    title: 'Room temperature and humidity',
+    xaxis: {type: "string",title:'Time'},
+    yaxis:{title:"Data",range: [0, 100]},
+    showlegend: false
+};
+    var trace1 = {
+
+  x: xData,
+  y: y1Data,
+
+  type: 'scatter'
+
+};
+
+
+var trace2 = {
+
+  x: xData.
+  y: y2Data,
+
+  type: 'scatter'
+
+};
+
+
+var dataGraph = [trace1, trace2];
+
+};
+
+
+Plotly.newPlot('myChart', dataGraph,layout);
+}
+</script>
+
+<script type="text/javascript">
+
+    function stats(arrayX,arrayYT,arrayYH) 
+// receive dataX and dataY
+    {
+       let  l = dataX.length;
+    
+        cnt = parseInt(Math.max(...arrayX));
+        rangeT = parseInt(Math.min(...arrayYT)) +  " - " +parseInt(Math.max(...arrayYT));
+        rangeH = parseInt(Math.min(...arrayYH)) +  " - " +parseInt(Math.max(...arrayYH));
+
+
+        console.log(cnt,maxY,minY,avg);
+        $('#cnt').text(cnt);
+        $('#rangeTemp').text(rangeT);
+        $('#rangeHumid').text(rangeH);
+     
+       // $('#time').text(startTime);
+        $('#temp').text(arrayYT[l-1]); // last reading 
+        $('#hummid').text(arrayYH[l-1]); // last reading 
+}
+</script>
+
+<script type="text/javascript">
+    function pushData(x,y1,y2)
+    {
+        $('#time').text(x);
+        let readingID = dataX.length;
+        dataX.push(readingID);
+        dataYT.push(y1);
+        if (dataX.length > 1)
+        {stats(dataX,dataYT,dataH);}
+       // console.log("X",dataX);
+       // console.log("Y",dataY);
+        lineGraph(dataX,dataYT,dataYH);
+    }
+</script>
+
+<script>
+
+    $(document).ready(function(){
+        $('#load').on('click', function(){
+  // ajax to load the database into dataX and dataY
+            alert("Loading");
+   $.ajax({
+    url: 'readRoom.php',
+    type: 'POST',
+   // data: yourData,
+    datatype: 'json'
+})
+.done(function (response) { 
+
+ alert('Getting data') ;
+console.log("response",response,response.length) ;
+data = JSON.parse(response) ;
+dataX = [];
+dataY =[];
+let l = data.length;
+startTime = data[0].hourMinute;
+$('#time').text(startTime) ;
+console.log(l,data[2].hourMinute,data[2].temperature);
+for (let i = 0; i < l; i++)
+{
+    let hm = data[i].hourMinute;data;
+    let t = data[i].temperature;
+    t = Number(t);
+     let readingID = dataX.length;
+    dataX.push(readingID);
+    dataY.push(t);
+   
+   
+
+}
+ stats(dataX,dataY);
+lineGraph(dataX,dataY);
+
+}) // ajax success
+
+.fail(function (jqXHR, textStatus, errorThrown) { 
+alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
+
+
+}); // ajax fail
+
+        })
+    })
+</script>
+
+
+
+<script>
+     $(document).ready(function(){
+        dataX = []; // x values;
+        dataY = []; // y values
+        sum = 0 ; // for average
+        n = 0; // counter
+        myThing = "LM35_1737";  // will get this through GET for different IDs
+      //  dweetData = initial(myThing);
+
+        let d = [];
+// get the time of the ;atest tweet for reference
+        dweetio.get_latest_dweet_for(myThing, function(err, dweet){
+        dweet = dweet[0]; // Dweet is always an array of 1
+        dweetName = dweet.thing;
+
+        dweetTime = dweet.created;
+         startTime = dweetTime;
+        dweetContent = dweet.content;
+        console.log(dweet.content);
+        latestTemperature = parseInt(dweet.content["temp"]);
+        latestTime = dweet.content["time"];
+        //console.log(dweet.content); // The content of the dweet
+        console.log(latestTemperature,latestTime); // The content of the dweet
+
+
+        d[0] = latestTime;
+        d[1] = latestTemperature;
+        pushData(d[0],d[1]);
+        $.post("writeRoom.php", { "thing":"myThing","hourMinute":d[0],"temperature":d[1]});
+        console.log("first one",dweet,myThing);
+
+        })
+    })
+
+function listen(mine) {
+dweetio.listen_for(mine, function(dweet){
+
+    // This will be called anytime there is a new dweet for my-thing
+
+  //  alert("New dweet",dweet);
+console.log("new",dweet);
+ let yt = Number(dweet.content["temp"]);
+ let y = parseFloat(yt.toFixed(2));
+ let x = dweet.content["time"];
+ // do ajax, if new data then push
+
+// send it to the database 
+// alert("checking for new " + mine + " x y" + x + " " + y);
+ $.ajax({
+    type: "POST",
+    dataType: "json",
+    url: "writeRoom.php",
+    data: {"thing":"LM35_1737" , "hourMinute":x,"temperature":y},
+   cache: false,
+    success: function(message){
+        data = message;
+   // alert(data);
+
+   if (data == "OK")
+{
+console.log("Writing",message,myThing);
+pushData(x,y);
+}
+    
+    } ,
+error: function(message){
+          data = message;
+     //  alert(data);
+       console.log("Writing",data,myThing);
+  }
+}); //ajax
+
+
+
+}); // dweet.io
+
+} 
+ myThing = "LM35_1737"; 
+listen(myThing);
+
+// wait for a new tweet 
+</script>
+<!--
+<script>
