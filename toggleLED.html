@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <script src="../javaScript/jQuery/jquery-3.3.1.min.js"></script>
+  <script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+</head>
+
+<body>
+<button id = "off">OFF</button>
+<button id = "on">ON</button>
+<a href = "http://dweet.io/get/latest/dweet/for/shantanu"><button>GET</button></a>
+<button id = "make">Make a dweet</button>
+<button id = "send">See and add a dweet</button>
+<p id = "theThing"></p><p id = "state"></p>
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function(){
+myThing = "";
+    })
+ </script>
+
+<script>
+    $(document).ready(function(){
+myThing = "LED_1737";
+state = "OFF";
+$('#state').text("statte")
+$('#theThing').text(myThing);
+// dweetio.dweet_("my-thing",
+	dweet = dweetio.dweet_for(myThing ,{led:"off"}, function(err, dweet){
+    console.log("thing",dweet.thing); // The generated name
+    console.log("content",dweet.content); // The content of the dweet
+    console.log("date",dweet.created); // The create date of the dweet
+	myThing = dweet.thing;
+	console.log("named ",myThing);
+
+
+});
+})
+
+</script>
+
+<script>
+    $(document).ready(function(){
+$('#add').on('click', function() {
+
+// state = $('#theThing').text();
+});
+})
+
+</script>
+
+
+
+<script>
+    $(document).ready(function(){
+$('#on').on('click', function() {
+
+let a = this.id;
+$('#state').text(a);
+
+});
+})
+</script>
+
+<script>
+    $(document).ready(function(){
+$('#off').on('click', function() {
+
+let a = $('#off').text();
+$('#state').text(a);
+
+
+});
+})
+</script>
+
+<script>
+    $(document).ready(function(){
+$('#send').on('click', function() {
+
+let x = $('#theThing').text();
+let s = $('#state').text();
+
+
+//http://dweet.io/dweet/for/shantanu?led=on
+// ajax it to dweet.io
+let url = "https://dweet.io/dweet/for/" + myThing + "?led=" + s;
+alert(this.id + " " + x + " " + s + " " + url);
+console.log("url ",url);
+$.get(url, function(data, status){
+    console.log("Data: ",  data);
+  });
+ 
+});
+})
+	
+
+</script>
