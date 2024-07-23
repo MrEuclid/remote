@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <script src="../javaScript/jQuery/jquery-3.3.1.min.js"></script>
+  <script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+</head>
+<!-- https://developer.chrome.com/docs/capabilities/serial -->
+<body>
+<button id = "off">OFF</button>
+<button id = "on">ON</button>
+<a href = "http://dweet.io/get/latest/dweet/for/shantanu"><button>GET</button></a>
+<button id = "make">Make a dweet</button>
+<button id = "send">See and add a dweet</button>
+<p id = "theThing"></p><p id = "state"></p>
+<button id = "ports">Ports</button>
+</body>
+
+</html>
+
+<script>
+      $(document).ready(function(){
+
+if ("serial" in navigator) {
+ alert("Serial")
+}
+else 
+{
+	alert("No serial ");
+}
+
+document.querySelector('#ports').addEventListener('click', async () => {
+  // Prompt user to select any serial port.
+ // const port = await navigator.serial.requestPort();
+ // const ports = await navigator.serial.getPorts();
+
+  // Filter on devices with the Arduino Uno USB Vendor/Product IDs.
+const filters = [
+  { usbVendorId: 0x2341, usbProductId: 0x0043 },
+  { usbVendorId: 0x2341, usbProductId: 0x0001 }
+];
+
+const port = await navigator.serial.requestPort({ filters });
+
+const { usbProductId, usbVendorId } = port.getInfo();
+  console.log("port ",port);
+
+// Wait for the serial port to open.
+await port.open({ baudRate: 9600 });
+
+//const reader = port.readable.getReader();
+const textDecoder = new TextDecoderStream();
+const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+const reader = textDecoder.readable.getReader();
+
+// Listen to data coming from the serial device.
+while (true) {
+  const { value, done } = await reader.read();
+  if (done) {
+    // Allow the serial port to be closed later.
+    reader.releaseLock();
+    break;
+  }
+  // value is a Uint8Array.
+  console.log(value);
+}
+
+});
+})
+
+ </script>
