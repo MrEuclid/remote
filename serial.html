@@ -64,7 +64,9 @@ while (true) {
     break;
   }
   // value is a Uint8Array.
-  console.log(value);
+  if (parseInt(value) > 9)
+  {console.log("OK",value);}
+else {console.log("single ",value);}
 }
 
 });
