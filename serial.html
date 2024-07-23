@@ -6,6 +6,18 @@
   <script src="../javaScript/jQuery/jquery-3.3.1.min.js"></script>
   <script src="../bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
   <script src="//dweet.io/client/dweet.io.min.js"></script>
+
+  <style type="text/css">
+    #temp {
+            width:60px; 
+            height: 60px; 
+            font-weight: bold; 
+            font-size: 20pt;
+            background-color:black;
+            color:yellow;
+
+          }
+  </style>
 </head>
 <!-- https://developer.chrome.com/docs/capabilities/serial -->
 <body>
@@ -16,6 +28,8 @@
 <button id = "send">See and add a dweet</button>
 <p id = "theThing"></p><p id = "state"></p>
 <button id = "ports">Ports</button>
+<br><br>
+<button id = "temp"></button>
 </body>
 
 </html>
@@ -63,10 +77,21 @@ while (true) {
     reader.releaseLock();
     break;
   }
+  t = "";
   // value is a Uint8Array.
   if (parseInt(value) > 9)
-  {console.log("OK",value);}
-else {console.log("single ",value);}
+  {
+    console.log("OK",value);
+    t = value;
+    $('#temp').text(value);
+  }
+  else 
+    {
+      console.log("single ",value);
+      t += value ;
+      console.log("t = ",t);
+    }
+
 }
 
 });
