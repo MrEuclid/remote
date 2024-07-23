@@ -128,11 +128,18 @@ const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
 const reader = textDecoder.readable.getReader();
 // t = "";
 // Listen to data coming from the serial device.
+let cnt = 0;
+let temp = "";
+let d = [];
 while (true) {
+
   const { value, done } = await reader.read();
+  temp = temp + value;
+ 
+
   if (done) {
     // Allow the serial port to be closed later.
-t = value.length;
+    
 
     reader.releaseLock();
     break;
@@ -141,10 +148,14 @@ t = value.length;
       //  $('#dataX').text(value);
   // value is a Uint8Array.
   $('#dataX').text(value);
-    console.log("l",value);
-   $('#serial').text(value);
+  //  console.log(value);
   
+  cnt++;
+  d.push(temp);
+  console.log(cnt,temp);
+  $('#serial').append(cnt + " " + temp + "<br>");
  
+
 }
 
 });
