@@ -40,7 +40,7 @@ h1 {
                 margin-right: 4em;
               }
 
-#[id^=data] {
+[id^=data] {
                 width: 4em; 
                 height: 3em;
                 color: white;
@@ -68,9 +68,9 @@ h1 {
 
  <div class = "row justify-content-center">
       <div class = "col- c">
-        <button id = "dataX"></button>
-        <button id = "dataY"></button>
-        <button id = "dataZ"></button>
+        <button id = "dataX">0</button>
+        <button id = "dataY">0</button>
+        <button id = "dataZ">0</button>
 
       </div></div>
 <div id = "myChart"></div>
@@ -131,24 +131,18 @@ while (true) {
   const { value, done } = await reader.read();
   if (done) {
     // Allow the serial port to be closed later.
+
+
     reader.releaseLock();
     break;
   }
-  t = "";
+ 
+        $('#dataX').text(value);
   // value is a Uint8Array.
-  if (parseInt(value) > 9)
-  {
-    console.log("OK",value);
-    t = value;
-    $('#temp').text(value);
-  }
-  else 
-    {
-      console.log("single ",value);
-      t += value ;
-      console.log("t = ",t);
-    }
-
+ 
+    console.log(value);
+  
+ 
 }
 
 });
