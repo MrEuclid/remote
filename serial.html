@@ -40,15 +40,15 @@ h1 {
                 margin-right: 4em;
               }
 
-[id^=data] {
-                width: 4em; 
-                height: 3em;
-                color: white;
-                background-color: blue;
+p {
+              
+               
                 font-weight: bold;
-                font-size: 2em;
-                margin-right: 4em;
+                font-size: 1.5em;
+               
               }
+
+  
   </style>
 
 </head>
@@ -64,14 +64,16 @@ h1 {
  <div class = "row justify-content-center">
       <div class = "col- c"><button id = "start">Start</button><button id = "stop">Finish</button>
       </div></div>
-</body>
 
  <div class = "row justify-content-center">
       <div class = "col- c">
-        <button id = "dataX">0</button>
-        <button id = "dataY">0</button>
-        <button id = "dataZ">0</button>
-
+        <label>count</label>
+        <p id = "dataX">0</p>
+        <label>Temperature</label>
+        <p id = "dataY">0</p>
+        <!--
+        <p id = "dataZ">0</p>
+      -->
       </div></div>
       <p id= "serial" ></p>
 <div id = "myChart"></div>
@@ -87,7 +89,7 @@ $(document).ready(function(){
   dataX = [];
   dataY = [];
   dataZ = [];
-  serialData = "";
+  $('#serial').empty();
 
 })
 </script>
@@ -148,20 +150,22 @@ while (true) {
  
       //  $('#dataX').text(value);
   // value is a Uint8Array.
-  $('#dataX').text(value);
+  //$('#dataX').text(value);
   //  console.log(value);
   
-  cnt++;
+  
   d.push(temp);
-  if (parseInt(temp) > 10)
-    { cnt++
-      console.log(cnt,temp);
-  $('#serial').append(cnt + " " + value + "<br>");
-  $('#dataX').text(temp);
+  if (parseInt(temp.trim()) > 10  & cnt >= 1)
+    { 
+      cnt++;
+      let temp2 = temp.trim();
+      let value2 = value.trim();
+      value2 = parseInt(value2);
+      console.log(cnt,temp2,value2);
+      $('#serial').append(cnt + " " + value2 + "<br>");
+      $('#dataY').text(value2);
+      $('#dataX').text(cnt);
  }
- else {part = part + value; 
- $('#dataY').text(part) ;
-}
 
 }
 
