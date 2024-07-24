@@ -83,6 +83,30 @@ p {
 
 </html>
 
+
+<script type="text/javascript">
+
+function lineGraph(xData,yData)
+{
+       TESTER2 = document.getElementById('myGraph');
+       var layout = {
+    title: 'Room temperature',
+    xaxis: {type: "string",title:'Time'},
+    yaxis:{title:"Temperature",range: [20, 40]},
+    showlegend: false
+};
+    var trace1 = {
+        x: xData,
+        y: yData,
+        type: 'scatter'
+};
+
+var dataGraph = [trace1];
+
+Plotly.newPlot('myChart', dataGraph,layout);
+}
+</script>
+
 <script>
 $(document).ready(function(){
 
@@ -90,6 +114,8 @@ $(document).ready(function(){
   dataY = [];
   dataZ = [];
   $('#serial').empty();
+  cnt = 0;
+  d = [];
 
 })
 </script>
@@ -98,7 +124,7 @@ $(document).ready(function(){
       $(document).ready(function(){
 
 if ("serial" in navigator) {
- alert("web Serial availalbe");
+ alert("web Serial available");
 }
 else 
 {
@@ -109,7 +135,7 @@ document.querySelector('#start').addEventListener('click', async () => {
   // Prompt user to select any serial port.
  // const port = await navigator.serial.requestPort();
  // const ports = await navigator.serial.getPorts();
-$('#start').prop('disable',true);
+// $('#start').prop('disable',true);
   // Filter on devices with the Arduino Uno USB Vendor/Product IDs.
 const filters = [
   { usbVendorId: 0x2341, usbProductId: 0x0043 },
@@ -130,9 +156,7 @@ const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
 const reader = textDecoder.readable.getReader();
 // t = "";
 // Listen to data coming from the serial device.
-let cnt = 0;
-let temp = "";
-part = "" ;
+
 let d = [];
 while (true) {
 
@@ -155,16 +179,25 @@ while (true) {
   
   
   d.push(temp);
-  if (parseInt(temp.trim()) > 10  & cnt >= 1)
+  if (parseInt(temp.trim()) > 10  & cnt >= 0)
     { 
       cnt++;
       let temp2 = temp.trim();
       let value2 = value.trim();
       value2 = parseInt(value2);
-      console.log(cnt,temp2,value2);
+     // console.log(cnt,temp2,value2);
       $('#serial').append(cnt + " " + value2 + "<br>");
       $('#dataY').text(value2);
       $('#dataX').text(cnt);
+       $('#start').text(cnt);
+       $('#stop').text(value2);
+      let data = [cnt,value2];
+       d.push(data);
+       console.log(d);
+       dataY.push(value2);
+       dataX.push(cnt);
+       lineGraph(dataX,dataY);
+
  }
 
 }
