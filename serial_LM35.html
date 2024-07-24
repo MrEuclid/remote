@@ -121,6 +121,34 @@ $(document).ready(function(){
 </script>
 
 <script>
+  function writeData(title,x,y) {
+  
+   $.ajax({
+    url: 'writeSensor.php',
+    type: 'POST',
+    data: {sensorName:title,cnt:x,data:y},
+    datatype: 'text'
+})
+.done(function (response) { 
+
+
+data = response;
+
+
+// data = JSON.parse(response) ;
+$('#message').text(data);
+console.log("response",data) ;
+}) // ajax success
+
+.fail(function (jqXHR, textStatus, errorThrown) { 
+alert("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown) ;
+
+
+}); // ajax fail
+}
+</script>
+
+<script>
       $(document).ready(function(){
 
 if ("serial" in navigator) {
@@ -198,6 +226,8 @@ while (true) {
        dataX.push(cnt);
        lineGraph(dataX,dataY);
 
+       writeData(sensorName,cnt,value2);
+
  }
 
 }
@@ -224,6 +254,15 @@ while (true) {
 
 data = response;
 alert(data);
+if (data == 0)
+{
+  alert("Ready to go!");
+  data = "SEnsor name " + sensorName + " is available";
+  $('#register').hide();
+  $('#display').show();
+
+}
+else { daya = 'Please choose another name for the data.";'}
 // data = JSON.parse(response) ;
 $('#message').text(data);
 console.log("response",response,data) ;
@@ -238,5 +277,9 @@ alert("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrow
         })
     })
 </script>
+
+
+
+
 
 

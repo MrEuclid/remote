@@ -2,7 +2,7 @@
 
 include "../connectTempleDB.php";
 
-// $name = $_POST['sensorName'];
+ $name = $_POST['sensorName'];
 //$name = "1234A";
 // read database and export for use in plotly
 
