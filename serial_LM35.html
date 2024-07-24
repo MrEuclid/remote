@@ -31,23 +31,31 @@ h1 {
       }
 
 #start, #stop {
-                width: 4em; 
+                width: 6em; 
                 height: 3em;
                 color: yellow;
                 background-color: black;
                 font-weight: bold;
-                font-size: 2em;
-                margin-right: 4em;
-              }
-
-p {
-              
-               
-                font-weight: bold;
                 font-size: 1.5em;
-               
+                margin-right: 2em;
               }
 
+p   {     
+      font-weight: bold;
+      font-size: 1.2em;
+      text-align: center;         
+    }
+
+input 
+    {
+      background-color: lightblue;
+      color: black;
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+  label{font-size: 1.2em; font-weight: bolder;}
   
   </style>
 
@@ -61,19 +69,19 @@ p {
   <h1 class = "c">Monitoring Arduino Sensors</h1>
             </div></div>
 <div id = "register">
-    <div class="row">
-     <div class="col-sm-12 c">
+   <div class = "row justify-content-center">
+     <div class="col- c">
  <label>Data name</label><input id = "dataName"><button id = "check">Check</button>
             </div></div>
-    <p id = "message">Message</p>
+    <p id = "message"></p>
 </div>
-<div id = "ddisplay">
+<div id = "display">
  <div class = "row justify-content-center">
       <div class = "col- c">
         <button id = "start">Start</button>
         <button id = "stop">Download</button>
       </div></div>
-
+</div>
 
 <div id = "myChart"></div>
 </div>
@@ -253,16 +261,20 @@ while (true) {
 
 
 data = response;
-alert(data);
+// alert(data);
 if (data == 0)
 {
-  alert("Ready to go!");
+  alert("Ready to go! Click start to begin.");
   data = "SEnsor name " + sensorName + " is available";
   $('#register').hide();
   $('#display').show();
 
 }
-else { daya = 'Please choose another name for the data.";'}
+else 
+{ 
+  data = "Please choose another name for the data.";
+  alert(data);
+}
 // data = JSON.parse(response) ;
 $('#message').text(data);
 console.log("response",response,data) ;
