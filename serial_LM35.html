@@ -122,48 +122,30 @@ const { usbProductId, usbVendorId } = port.getInfo();
 // Wait for the serial port to open.
 await port.open({ baudRate: 9600 });
 
-//const reader = port.readable.getReader();
-const textDecoder = new TextDecoderStream();
-const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
-const reader = textDecoder.readable.getReader();
-// t = "";
-// Listen to data coming from the serial device.
-let cnt = 0;
-let temp = "";
-part = "" ;
-let d = [];
-while (true) {
-
-  const { value, done } = await reader.read();
-  temp =  value;
+//
  
+// CODELAB: Add code to read the stream here.
+let decoder = new TextDecoderStream();
+inputDone = port.readable.pipeTo(decoder.writable);
+inputStream = decoder.readable;
 
+reader = inputStream.getReader();
+//readLoop();
+
+// CODELAB: Add read loop here.
+while (true) {
+  const { value, done } = await reader.read();
+  if (value) {
+    log.textContent += value + '\n';
+  }
   if (done) {
-    // Allow the serial port to be closed later.
-    
-
+    console.log('[readLoop] DONE', done,value);
     reader.releaseLock();
     break;
   }
- 
-      //  $('#dataX').text(value);
-  // value is a Uint8Array.
-  $('#dataX').text(value);
-  //  console.log(value);
-  
-  cnt++;
-  d.push(temp);
-  if (parseInt(temp) > 10)
-    { cnt++
-      console.log(cnt,temp);
-  $('#serial').append(cnt + " " + value + "<br>");
-  $('#dataX').text(temp);
- }
- else {part = part + value; 
- $('#dataY').text(part) ;
 }
 
-}
+
 
 });
 })
