@@ -162,6 +162,29 @@ alert(sensorName);
       })
 </script>
 
+<script type="text/javascript">
+
+function lineGraph(xData,yData)
+{
+       TESTER2 = document.getElementById('myGraph');
+       var layout = {
+    title: 'Room temperature',
+    xaxis: {type: "string",title:'Time'},
+    yaxis:{title:"Temperature",range: [20, 40]},
+    showlegend: false
+};
+    var trace1 = {
+        x: xData,
+        y: yData,
+        type: 'scatter'
+};
+
+var dataGraph = [trace1];
+
+Plotly.newPlot('myChart', dataGraph,layout);
+}
+</script>
+
 <script>
     $(document).ready(function(){
         $('#download').on('click', function(){
@@ -177,6 +200,45 @@ console.log(data);
     $(document).ready(function(){
         $('#view').on('click', function(){
  alert(this.id);
+
+ // load dataX and dataY and plot
+  $.ajax({
+    url: 'readRoom.php',
+    type: 'POST',
+   // data: yourData,
+    datatype: 'json'
+})
+.done(function (response) { 
+
+ alert('Getting data') ;
+console.log("response",response,response.length) ;
+data = JSON.parse(response) ;
+dataX = [];
+dataY =[];
+
+for (let i = 0; i < l; i++)
+{
+    let x = data[i].x;
+    let y = data[i].y;
+
+    dataX.push(x);
+    dataY.push(y);
+   
+   
+
+}
+// stats(dataX,dataY);
+lineGraph(dataX,dataY);
+
+}) // ajax success
+
+.fail(function (jqXHR, textStatus, errorThrown) { 
+alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
+
+
+}); // ajax fail
+
+
 
     })
       })
