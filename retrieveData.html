@@ -189,7 +189,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
     $(document).ready(function(){
         $('#download').on('click', function(){
           alert(this.id);
-  $.get("getSensorList.php?sensorName=" + sensorName,function(data){
+  $.get("downloadsensor.php?sensorName=" + sensorName,function(data){
 console.log(data);
 })
     })
@@ -199,13 +199,13 @@ console.log(data);
 <script>
     $(document).ready(function(){
         $('#view').on('click', function(){
- alert(this.id);
+// alert(this.id);
 
  // load dataX and dataY and plot
   $.ajax({
-    url: 'readRoom.php',
+    url: 'readSensor.php',
     type: 'POST',
-   // data: yourData,
+    data: {sensorName:sensorName},
     datatype: 'json'
 })
 .done(function (response) { 
@@ -215,7 +215,8 @@ console.log("response",response,response.length) ;
 data = JSON.parse(response) ;
 dataX = [];
 dataY =[];
-
+l = data.length;
+// alert(data);
 for (let i = 0; i < l; i++)
 {
     let x = data[i].x;
@@ -223,7 +224,7 @@ for (let i = 0; i < l; i++)
 
     dataX.push(x);
     dataY.push(y);
-   
+ console.log(x,y)  ;
    
 
 }
