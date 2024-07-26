@@ -41,7 +41,7 @@ p   {
 select {
         background-color: lightblue;
         color: black; width:auto; 
-        height:60px;
+        height:30px;
         font-size: 1.2em;
         font-weight: bold;
       }
@@ -83,11 +83,21 @@ select {
       <div class = "col- c">
         <button id = "view">View</button>
         <button id = "download">Download</button>
+       <button id = "link" ><a href = "data.csv">Data</a></button>
       </div></div>
 
+ <div class = "row justify-content-center">
+      <div class = "col- c">
 <div id = "myChart"></div>
+</div></div>
+
+ <div class = "row justify-content-center">
+      <div class = "col- c">
+<div id = "data"></div>
+</div></div>
+
 </div>
-  </div>
+  
 </body>
 
 </html>
@@ -126,7 +136,9 @@ $(document).ready(function(){
   dataX = [];
   dataY = [];
   dataZ = [];
-
+$('#view').hide();
+$('#download').hide();
+$('#link').hide();
 
 
   var items="<option>Select your sensor</option>";
@@ -157,6 +169,8 @@ let selectedVal =  $("#sensorList option:selected").text();
 let myString = selectedVal.split("-");
 sensorName =  myString[0];
 alert(sensorName);
+$('#view').show();
+$('#download').show();
 
     })
       })
@@ -188,10 +202,29 @@ Plotly.newPlot('myChart', dataGraph,layout);
 <script>
     $(document).ready(function(){
         $('#download').on('click', function(){
-          alert(this.id);
-  $.get("downloadsensor.php?sensorName=" + sensorName,function(data){
-console.log(data);
+ alert("Download");
+       $.ajax({
+    url: 'downloadSensor.php',
+    type: 'POST',
+    data: {sensorName:sensorName},
+    datatype: 'json'
 })
+.done(function (response) { 
+
+console.log("sent",response);
+$('#data').html(response);
+$('#link').show();
+}) // ajax success
+
+.fail(function (jqXHR, textStatus, errorThrown) { 
+alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
+
+
+}); // ajax fail
+
+
+
+
     })
       })
 </script>
@@ -210,7 +243,7 @@ console.log(data);
 })
 .done(function (response) { 
 
- alert('Getting data') ;
+// alert('Getting data') ;
 console.log("response",response,response.length) ;
 data = JSON.parse(response) ;
 dataX = [];
