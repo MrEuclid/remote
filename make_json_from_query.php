@@ -9,7 +9,7 @@ $result = mysqli_query($dbServer,$query) ;
 
 $columns = mysqli_field_count($dbServer) ;
 $col_name = mysqli_fetch_fields($result) ;
-
+// echo $columns;
 $header = array() ;
 for ($i = 0 ; $i < $columns ; $i++)
   {
@@ -17,18 +17,17 @@ $fieldinfo=mysqli_fetch_field_direct($result,$i);
 $fieldname = $fieldinfo->name ;
 $fieldtype = $fieldinfo->type ;
 
-// echo $fieldname . " " . $fieldtype . "<br>" ;
+//  echo $fieldname . " " . $fieldtype . "<br>" ;
 IF ($fieldtype == 252 OR $fieldtype == 253  )
 {$fieldtype = "string" ;}
-IF ($fieldtype == 10 OR $fieldtype == 11 )
-{$fieldtype = "string" ;} // sort out date issue later
+IF ($fieldtype == 10 )
+{$fieldtype = "string" ;}
 
-IF ($fieldtype == 3 OR $fieldtype == 4 OR $fieldtype == 16 OR $fieldtype == 8 OR $fieldtype == 246 or $fieldtype == 5)
+IF ($fieldtype == 3 OR $fieldtype == 5 OR $fieldtype == 16 OR $fieldtype == 8 OR $fieldtype == 246)
 {$fieldtype = "number" ;}
 
 $header[$i][0] = $fieldname ;
 $header[$i][1] = $fieldtype ;
-
 
 }
 
@@ -67,22 +66,7 @@ for ($i = 0 ; $i < $columns ; $i++)
 // echo $i . " = " . $header[$i][0] . " data " . $data[$i] . "<br>" ;
 //$cellh[$i]["v"]=$header[$i][0];
 // array_push($temp,$cellh[$i]) ;
-/*
-if ($header[$i][0] == "date")
-{ // need to convert to Date(y,m,d} // months go from 0 to 11 for json
-    $when = $data[$i] ; 
-     
-    $year = string($when,0,4) ;
-	$year = intval($year) ;
-	$month = string($when,6,2) ;
-	$month = intval($month) - 1 ;
-	$day = string($when,9,2) ;
-	$day = intval($day) ;
-   
-   $cellv[$i]["v"]= Date($year,$month,$day);}
-ELSE
-*/
-$cellv[$i]["v"]= $data[$i];
+ $cellv[$i]["v"]= $data[$i];
  array_push($temp,$cellv[$i]) ;
  
 }  // for loop
@@ -100,8 +84,8 @@ $j++ ;
 
 $jsondata=array("cols"=>$cols,"rows" => $rows);
 
-// echo json_encode($jsondata) ;
-echo json_encode($jsondata, JSON_NUMERIC_CHECK);
+ echo json_encode($jsondata) ;
+// echo json_encode($jsondata, JSON_NUMERIC_CHECK);
 
 // print_r($jsondata) ;
 

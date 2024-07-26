@@ -8,10 +8,10 @@ include "connectTempleDB.php";
 
 $query = "SELECT dataX ,dataY 
 				 FROM arduinoSensor"; // WHERE sensorName = '$sensor' ";
-			//	 echo "<br>" . $query . "<br>" ;
+				// echo "<br>" . $query . "<br>" ;
 //echo "JSON";
-include "make_json_from_query.php";
-/*
+//include "make_json_from_query.php";
+
 $query2 = $query;
 $result2 = mysqli_query($dbServer,$query2);
 $output =[];
@@ -26,7 +26,7 @@ WHILE ($data = mysqli_fetch_assoc($result2))
 
 $myJSON = json_encode($output);
 // echo "<br>";
-// echo $myJSON;
+ echo $myJSON;
 // echo "<br>";
-*/
+
 ?>
