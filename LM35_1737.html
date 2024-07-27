@@ -72,10 +72,11 @@
 function lineGraph(xData,yData)
 {
        TESTER2 = document.getElementById('myGraph');
-       var layout = {
-            maxY = parseInt(Math.max(...yData));
+        maxY = parseInt(Math.max(...yData));
         minY = parseInt(Math.min(...yData));
     title: 'Room temperature',
+       var layout = {
+     
     xaxis: {type: "string",title:'Time'},
     yaxis:{title:"Temperature",range: [minY, minX]},
     showlegend: false

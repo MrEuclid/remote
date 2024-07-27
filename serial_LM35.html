@@ -100,11 +100,14 @@ input
 function lineGraph(xData,yData)
 {
        TESTER2 = document.getElementById('myGraph');
+         maxY = parseInt(Math.max(...yData));
+          minY = parseInt(Math.min(...yData));
        var layout = {
-    title: 'Room temperature',
-    xaxis: {type: "string",title:'Time'},
-    yaxis:{title:"Temperature",range: [20, 40]},
-    showlegend: false
+                    
+                      title: 'Sensor reading',
+                      xaxis: {type: "string",title:'Time'},
+                      yaxis:{title:"data",range: [minY, maxY]},
+                      showlegend: false
 };
     var trace1 = {
         x: xData,

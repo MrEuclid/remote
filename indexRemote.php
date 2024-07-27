@@ -48,9 +48,9 @@ input {margin-right:1em;}
   <h2 class = "c">  Read data</h2>
 
   <button class = "site" id = "serial_LM35">LM35</button>
-    <button id = "serial_HR204">HR 2024</button>
-   <button id = "serial_counting">Counting</button>
-   <button id = "LM35_1737">DWEET</button></a>
+    <button class = "site" id = "serial_HR204">HR 2024</button>
+   <button class = "site" id = "serial_counting">Counting</button>
+   <button class = "site" id = "LM35_1737">DWEET</button></a>
 </div></div>
 
 
@@ -58,7 +58,7 @@ input {margin-right:1em;}
 <div class = "col-12 c">
 
 <h2 clas s= "c">View sensor data</h2>
-<button id =  "retrieveData" >View sensors</button></a>
+<button class = "site" id =  "retrieveData" >View sensors</button></a>
 </div></div>
  <div class = "row justify-content-center">
 <div class = "col-12 c">
@@ -77,7 +77,7 @@ input {margin-right:1em;}
           let click = this.id;
           console.log(click + ".html");
           let url = click + ".html"
-         // alert(click);
+          alert(click);
 $('#webPage').load(url);
  })
 })

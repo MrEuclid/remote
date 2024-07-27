@@ -101,11 +101,12 @@ input
 function lineGraph(xData,yData)
 {
        TESTER2 = document.getElementById('myGraph');
+           maxY = parseInt(Math.max(...yData));
+        minY = parseInt(Math.min(...xData));
        var layout = {
     title: 'Position',
 
-        maxY = parseInt(Math.max(...yData));
-        minY = parseInt(Math.min(...xData));
+    
     xaxis: {type: "string",title:'Time'},
     yaxis:{title:"Disance",range: [minY, maxY]},
     showlegend: false
