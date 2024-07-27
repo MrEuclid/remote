@@ -8,6 +8,7 @@
   <script src="//dweet.io/client/dweet.io.min.js"></script>
   
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <<link href = "remoteStyles.css"  rel = "stylesheet">
 
     <style>
 
@@ -72,9 +73,11 @@ function lineGraph(xData,yData)
 {
        TESTER2 = document.getElementById('myGraph');
        var layout = {
+            maxY = parseInt(Math.max(...yData));
+        minY = parseInt(Math.min(...yData));
     title: 'Room temperature',
     xaxis: {type: "string",title:'Time'},
-    yaxis:{title:"Temperature",range: [20, 40]},
+    yaxis:{title:"Temperature",range: [minY, minX]},
     showlegend: false
 };
     var trace1 = {

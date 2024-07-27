@@ -15,7 +15,7 @@ header("Refresh: $delay");
   <script>
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(fetchData);
-setInterval(fetchData, 60000); // Refresh every minute
+// setInterval(fetchData, 60000); // Refresh every minute
     function fetchData() {
       // ... your data fetching and parsing logic
         // Replace this with your actual data fetching logic

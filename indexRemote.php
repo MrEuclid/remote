@@ -2,27 +2,37 @@
 <html lang="en">
   <head>
  
-<meta http-equiv="refresh" content="5">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- 
-    
-
-
-
     <meta charset="utf-8">
-    
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <title>Viewing data</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+  <<link href = "remoteStyles.css"  rel = "stylesheet">
+
+    <title>Remote</title>
 
 <style type="text/css">
-
+.c {width:auto; text-align: center;}
 #counter {position:absolute; top:100px ; left:200px ; font-size:28pt ; color:red ;}
 
 #two {font-weight: bolder;color: red ; font-size: 24pt ;}
+
+   .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+             
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+input {margin-right:1em;}
+  .site {color:green; background-color: skyblue;}
+}
 </style>
 
 
@@ -30,82 +40,45 @@
   <body>
   
     <div class  = "container-fluid">
-      <div class = "row">
-        <div class = "col-md-12 c">
-   <h1><img id = "pio1" src = "images/PioLogo.png" width = "50px" height = "50px">
-View my Data
-   <img id = "pio2" src = "images/PioLogo.png" width = "50px" height = "50px">
- </h1>
+      <div class = "row justify-content-center">
+        <h1 class = "c"> <a href = "../index.php">Home</a> Remote data</h1>
+      </div></div>
+      <div class = "row justify-content-center">
+        <div class = "col-12 c">
+  <h2 class = "c">  Read data</h2>
+
+  <button class = "site" id = "serial_LM35">LM35</button>
+    <button id = "serial_HR204">HR 2024</button>
+   <button id = "serial_counting">Counting</button>
+   <button id = "LM35_1737">DWEET</button></a>
 </div></div>
 
 
-<div class = "row">
-<div class = "col-md-12 c">
+ <div class = "row justify-content-center">
+<div class = "col-12 c">
 
-<h2>Data</h2>
-<p>
-This page displays data that has been sent from an Arduino. The data first goes to a computer running Pythom.
-The python code writes the data to a MYSQL database. After that the data is prcessed so that it can be visulaised.
-</p>
-
-<?php echo "Hi" ;
-// phpinfo() ;
-include "connectDatabaseRemote.php" ;
-$myTable = 'mySensor' ;
-$query = "SELECT cnt,data FROM mySensor ORDER BY time DESC LIMIT 1";
-$result = mysqli_query($dbServer,$query) ;
-$n = mysqli_num_rows($result) ;
-$data = mysqli_fetch_assoc($result);
-$sensorData = $data["data"];
-
-echo $sensorData ;
-
-if ($sensorData == 1) {
-echo "The robot sees <font color=\"red\">red</font>!";}
-
-if ($sensorData == 2) {
-
-echo "The robot sees <font color=\"green\">green</font>!";}
-if ($sensorData == 3) {
-echo "The robot sees <font color=\"blue\">blue</font>!";}
-if ($sensorData == 4) {
-echo "The robot sees <font color=\"yellow\">yellow</font>!";}
-
-
-echo "Value  = " . $data["data"] ;
-?>
-
-<div id = "counter"><h1 id = "code"><?php echo $sensorData ; ?></h1></div>
-
-  </div></div>
-
-
-<div class = "row">
-<div class = "col-md-12 c">
-<h2>
-  View - Sensor - Arduino - Data
-</h2>
+<h2 clas s= "c">View sensor data</h2>
+<button id =  "retrieveData" >View sensors</button></a>
 </div></div>
+ <div class = "row justify-content-center">
+<div class = "col-12 c">
+  <h3>Site</h3>
+<div id = "webPage"></div>
+</div></div>
+</div>
 
-
-  </body>
+</body>
 </html>
 
 
-<script type="text/javascript">
-  
-   $(document).ready(function(){
- 
-     $('window').on('unload', function(){
-
-      var c = $('#code').val() ;
-      c = parseInt(c);
-      console.log(c)
-  
-
-
-    })
-   })
-
-</script>
-
+<script>
+    $(document).ready(function(){
+        $(".site").on('click', function(){
+          let click = this.id;
+          console.log(click + ".html");
+          let url = click + ".html"
+         // alert(click);
+$('#webPage').load(url);
+ })
+})
+  </script>}
