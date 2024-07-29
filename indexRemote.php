@@ -47,9 +47,11 @@ input {margin-right:1em;}
         <div class = "col-12 c">
   <h2 class = "c">  Read data</h2>
 
-  <button class = "site" id = "serial_LM35">LM35</button>
-    <button class = "site" id = "serial_HR204">HR 2024</button>
+  <button class = "site" id = "serial_LM35">LM35 - DHT11</button>
+    <button class = "site" id = "serial_HR204">ultrasonic</button>
+    <!--
    <button class = "site" id = "serial_counting">Counting</button>
+ -->
    <button class = "site" id = "LM35_1737">DWEET</button></a>
 </div></div>
 
