@@ -16,6 +16,8 @@
 <button id = "latest">Latest DWEET</button>
 <button id = "send">See and add a dweet</button>
 <p id = "theThing"></p><p id = "state"></p>
+
+<button id = "write">Write</button>
 </body>
 
 </html>
@@ -126,7 +128,28 @@ dweetio.get_latest_dweet_for(myThing, function(err, dweet){
 })
 
 </script>
+<script>
 
+    function write(message)
+    {
+        const textEncoder = new TextEncoderStream();
+const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+const writer = textEncoder.writable.getWriter();
+await writer.write("hello");
+alert("Written");
+    }
+</script>
+
+<script>
+
+          $(document).ready(function(){
+    $('#write').on('#click', function(){
+
+alert(this.id);
+    write("hi");
+})
+})
+</script>
 
 <script>
       $(document).ready(function(){
@@ -160,14 +183,15 @@ const { usbProductId, usbVendorId } = port.getInfo();
 // Wait for the serial port to open.
 await port.open({ baudRate: 9600 });
 
+
+/*
 //const reader = port.readable.getReader();
 const textDecoder = new TextDecoderStream();
 const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
 const reader = textDecoder.readable.getReader();
 // t = "";
 // Listen to data coming from the serial device.
-
-let d = [];
+*/
 while (true) {
 
   const { value, done } = await reader.read();
@@ -176,20 +200,15 @@ while (true) {
 
   if (done) {
     // Allow the serial port to be closed later.
-    
 
     reader.releaseLock();
     break;
-  }
+  }  // if
  
- 
-
- }
-
-}
+}  // while
 
 });
 
-
+});
  </script>
 
