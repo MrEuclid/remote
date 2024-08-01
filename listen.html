@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <<link href = "remoteStyles.css"  rel = "stylesheet">
+
+  <title>Latest Dweet</title>
+</head>
+<body>
+  <h1>Latest Dweet:</h1>
+  <p id="dweet-content"></p>
+
+</body>
+</html>
+
+<script>
+  const thingName = "LED_1737"; // Replace with your thing's name on dweet.io
+const dweetContentElement = document.getElementById("dweet-content");
+let previousDweet = null; // Store the previously retrieved dweet
+
+function getLatestDweet() {
+
+dweetio.listen_for(thingName, function(dweet){
+
+    // This will be called anytime there is a new dweet for my-thing
+  dweetName = dweet.thing;
+
+        dweetTime = dweet.created;
+         startTime = dweetTime;
+        dweetContent = dweet.content;
+        console.log(dweet.content);
+        latestState = dweet.content["led"];
+        latestTime = dweet.created;
+        //console.log(dweet.content); // The content of the dweet
+        console.log(latestState,latestTime); // The content of the dweet
+$('#dweet-content').text(latestTime + " - " + latestState);
+
+  //  alert("New dweet",dweet);
+console.log("new",dweet);
+});
+}
+
+getLatestDweet();
+setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
+</script>
