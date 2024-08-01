@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <<link href = "remoteStyles.css"  rel = "stylesheet">
+
+    <style>
+
+    .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+                width:6em;
+                height:4em; 
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+
+    #redLED {background-color: red;}
+    #yellowLED {background-color: yellow;}
+    #greenLED {background-color: green;}
+    #latest {font-size: 1.2em ; text-align: center; font-weight: bolder; color: blue;}
+    </style>
+</head>
+<body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+     <h1 class = "c">Remote LED</h1>
+            </div></div>
+  
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Shows the LED status. It does this by analysing the dweets associated with "Thing" LED_1737</p>
+          </div></div>  
+<!-- need to have a dom element for the event listener to respond to -->
+<button>Go</button>
+        <div class="row">
+          <div class="col-sm-12">
+            <p id = "latest"></p>
+          </div></div>  
+      </div>
+
+</body>
+</html>
+
+
+<script>
+      $(document).ready(function(){
+
+if ("serial" in navigator) {
+ alert("web Serial available");
+}
+else 
+{
+  alert("No web serial for this browser.");
+}
+
+document.querySelector('button').addEventListener('click', async () => {
+  // Prompt user to select any serial port.
+ // const port = await navigator.serial.requestPort();
+  // Filter on devices with the Arduino Uno USB Vendor/Product IDs.
+	const filters = [
+  { usbVendorId: 0x2341, usbProductId: 0x0043 },
+  { usbVendorId: 0x2341, usbProductId: 0x0001 }
+];
+
+// Prompt user to select an Arduino Uno device.
+const port = await navigator.serial.requestPort({ filters });
+
+const { usbProductId, usbVendorId } = port.getInfo();
+});
+
+
+})
+
+ </script>
