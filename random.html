@@ -90,7 +90,7 @@ setInterval(getLatestDweet("LED_1737"), 5000); // Check for updates every 5 seco
 <script>
       $(document).ready(function(){
 myThing = "LED_1737";
-previousDweet = 0;
+previousState = 0;
 thingName = myThing;
 if ("serial" in navigator) {
  alert("web Serial available");
@@ -114,14 +114,22 @@ const port = await navigator.serial.requestPort({ filters });
 
 const { usbProductId, usbVendorId } = port.getInfo();
 await port.open({ baudRate: 9600 });
-
+let previousState = 0 ;
+let state = 0 ;
 const writer = port.writable.getWriter();
 while (true)
 {
 let l = 2;
-let s = $('#state').text();
-//console.log("state",s);
-let data =   new Uint8Array([104, 101, 108, 108, 111]); // hello
+let state = $('#state').text();
+
+//console.log("state",state);
+let data =   new Uint8Array([state]); // hello
+if (state != previousState)
+{
+  await writer.write(data);
+  console.log("wrote",data,state,previousState);
+  previousState = state;
+}
 // data = [$('#state').text()];
 //setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
   /*
@@ -141,8 +149,6 @@ let data =   new Uint8Array([104, 101, 108, 108, 111]); // hello
 });
 */
 
-await writer.write(data);
-//console.log("wrote",data);
 
 }
 // Allow the serial port to be closed later.
