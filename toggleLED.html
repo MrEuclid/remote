@@ -14,7 +14,9 @@
 <a href = "http://dweet.io/get/latest/dweet/for/shantanu"><button>GET</button></a>
 <button id = "make">Make a dweet</button>
 <button id = "latest">Latest DWEET</button>
-<button id = "send">See and add a dweet</button>
+<!--
+<button id = "send">Add a dweet with state</button>
+-->
 <p id = "theThing"></p><p id = "state"></p>
 </body>
 
@@ -62,7 +64,7 @@ $('#add').on('click', function() {
     $(document).ready(function(){
 $('#on').on('click', function() {
 
-let a = this.id;
+let a = "1";
 $('#state').text(a);
 
 });
@@ -73,7 +75,7 @@ $('#state').text(a);
     $(document).ready(function(){
 $('#off').on('click', function() {
 
-let a = $('#off').text();
+let a = 0;
 $('#state').text(a);
 
 
@@ -83,8 +85,9 @@ $('#state').text(a);
 
 <script>
     $(document).ready(function(){
-$('#send').on('click', function() {
+$('#make').on('click', function() {
 
+// alert("Making dweet");
 let x = $('#theThing').text();
 let s = $('#state').text();
 
@@ -184,11 +187,13 @@ while (true) {
  
  
 
- }
+ } // while
 
-}
 
-});
+
+}) ; // event listener
+
+}); // document ready
 
 
  </script>

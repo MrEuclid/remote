@@ -12,6 +12,9 @@
     <<link href = "remoteStyles.css"  rel = "stylesheet">
 
   <title>Latest Dweet</title>
+  <style>
+    #latestState {font-size: 2em; font-weight: bold;}
+  </style>
 </head>
 <body>
   <h1>Latest Dweet:</h1>
@@ -23,7 +26,7 @@
 <script>
   const thingName = "LED_1737"; // Replace with your thing's name on dweet.io
 const dweetContentElement = document.getElementById("dweet-content");
-let previousDweet = null; // Store the previously retrieved dweet
+let previousDweet = 0; // Store the previously retrieved dweet
 
 function getLatestDweet() {
 
@@ -41,6 +44,7 @@ dweetio.listen_for(thingName, function(dweet){
         //console.log(dweet.content); // The content of the dweet
         console.log(latestState,latestTime); // The content of the dweet
 $('#dweet-content').text(latestTime + " - " + latestState);
+$('#state').text(latestState);
 
   //  alert("New dweet",dweet);
 console.log("new",dweet);
