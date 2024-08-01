@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//dweet.io/client/dweet.io.min.js"></script>
+  
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+    <<link href = "remoteStyles.css"  rel = "stylesheet">
+
+    <style>
+
+    .c {
+        margin:auto; 
+        text-align: center;
+        }
+    
+    button {
+                margin:2em; 
+                width:6em;
+                height:4em; 
+                font-weight: bold; 
+                color:orange; 
+                background-color: black;
+            }
+
+    #redLED {background-color: red;}
+    #yellowLED {background-color: yellow;}
+    #greenLED {background-color: green;}
+    #latest {font-size: 1.2em ; text-align: center; font-weight: bolder; color: blue;}
+    </style>
+</head>
+<body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+     <h1 class = "c">Remote LED</h1>
+            </div></div>
+  
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p>Shows the LED status. It does this by analysing the dweets associated with "Thing" LM35_1737</p>
+          </div></div>  
+
+
+        <div class="row">
+          <div class="col-sm-12">
+            <p id = "latest"></p>
+          </div></div>  
+      </div>
+
+
+
+
+
+<script>
+     $(document).ready(function(){
+
+        myThing = "LED_1737";  // will get this through GET for different IDs
+      //  dweetData = initial(myThing);
+
+        let d = [];
+// get the time of the ;atest tweet for reference
+        dweetio.get_latest_dweet_for(myThing, function(err, dweet){
+        dweet = dweet[0]; // Dweet is always an array of 1
+        dweetName = dweet.thing;
+
+        dweetTime = dweet.created;
+         startTime = dweetTime;
+        dweetContent = dweet.content;
+        console.log(dweet.content);
+        latestState = dweet.content["led"];
+        latestTime = dweet.created;
+        //console.log(dweet.content); // The content of the dweet
+        console.log(latestState,latestTime); // The content of the dweet
+
+$('#latest').text(latestTime + ' - ' + latestState);
+        d[0] = latestTime;
+        d[1] = latestState;
+        console.log("first one",dweet,myThing);
+
+        })
+    })
+
+function listen(mine) {
+dweetio.listen_for(mine, function(dweet){
+
+    // This will be called anytime there is a new dweet for my-thing
+
+   alert("New dweet",dweet);
+console.log("new",dweet);
+ let y = dweet.content["led"];
+ let x = dweet.content["time"];
+ // do ajax, if new data then push
+}); // dweet.io
+
+}  // function listen
+ myThing = "LM35_1737"; 
+listen(myThing);
+
+// wait for a new tweet 
+
+
+</script>
+<!--
+<script>
+
+
