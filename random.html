@@ -119,10 +119,11 @@ const writer = port.writable.getWriter();
 while (true)
 {
 let l = 2;
-
-const data =   new Uint8Array([104, 101, 108, 108, 111]); // hello
-getLatestDweet(myThing);
-setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
+let s = $('#state').text();
+//console.log("state",s);
+let data =   new Uint8Array([104, 101, 108, 108, 111]); // hello
+// data = [$('#state').text()];
+//setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
   /*
   dweetio.get_latest_dweet_for(myThing, function(err, dweet){
   dweet = dweet[0]; // Dweet is always an array of 1
