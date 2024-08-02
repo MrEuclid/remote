@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Listen for dweet</title>
+  <title>Read-Write</title>
   <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -23,6 +23,7 @@
   <h1>Latest Dweet:</h1>
   <p id="dweet-content"></p>
   <br>
+  <button id = "go">Start</button>
  <label>State</label>
   <p id = "state"></p>
 </body>
@@ -67,4 +68,42 @@ $('#state').text(latestState);
 
 getLatestDweet();
 setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
+</script>
+
+
+<script type="text/javascript">
+
+      $(document).ready(function(){
+
+//serial stuff
+
+if ("serial" in navigator) {
+ alert("web Serial available");
+}
+else 
+{
+  alert("No web serial for this browser.");
+}
+
+document.querySelector('#go').addEventListener('click', async () => {
+  // Prompt user to select any serial port.
+ // const port = await navigator.serial.requestPort();
+ // const ports = await navigator.serial.getPorts();
+// $('#start').prop('disable',true);
+  // Filter on devices with the Arduino Uno USB Vendor/Product IDs.
+const filters = [
+  { usbVendorId: 0x2341, usbProductId: 0x0043 },
+  { usbVendorId: 0x2341, usbProductId: 0x0001 }
+];
+
+const port = await navigator.serial.requestPort({ filters });
+
+const { usbProductId, usbVendorId } = port.getInfo();
+  console.log("port ",port);
+
+// Wait for the serial port to open.
+await port.open({ baudRate: 9600 });
+
+})
+})
 </script>
