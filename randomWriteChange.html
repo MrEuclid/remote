@@ -57,7 +57,7 @@ dweetio.listen_for(thingName, function(dweet){
         latestState = dweet.content["led"];
         latestTime = dweet.created;
         //console.log(dweet.content); // The content of the dweet
-        console.log("latest",latestState,latestTime); // The content of the dweet
+      //  console.log("latest",latestState,latestTime); // The content of the dweet
 $('#dweet-content').text(latestTime + " - " + latestState);
 $('#state').text(latestState);
 
@@ -78,7 +78,7 @@ setInterval(getLatestDweet, 5000); // Check for updates every 5 seconds
 //serial stuff
 
 if ("serial" in navigator) {
- alert("web Serial available");
+// alert("web Serial available");
 }
 else 
 {
@@ -99,10 +99,44 @@ const filters = [
 const port = await navigator.serial.requestPort({ filters });
 
 const { usbProductId, usbVendorId } = port.getInfo();
-  console.log("port ",port);
+ // console.log("port ",port);
 
 // Wait for the serial port to open.
 await port.open({ baudRate: 9600 });
+const writer = port.writable.getWriter();
+// Select the node that will be observed for mutations
+const targetNode = document.getElementById("state");
+
+// Options for the observer (which mutations to observe)
+const config = { attributes: true, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+const callback = (mutationList, observer) => {
+  for (const mutation of mutationList) {
+    if (mutation.type === "childList") {
+      let s = $('#state').text();
+      console.log("A child node has been added or removed.",s);
+          const randomByte = Math.floor(Math.random() * 256);
+      const data = new Uint8Array([s]);
+      writer.write(data);
+      console.log("writng",data);
+    } else if (mutation.type === "attributes") {
+      console.log(`The ${mutation.attributeName} attribute was modified.`,s);
+    }
+  }
+};
+
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+
+// Later, you can stop observing
+//observer.disconnect();
+
+
+
 
 })
 })
