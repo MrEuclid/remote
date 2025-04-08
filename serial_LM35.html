@@ -86,10 +86,12 @@ input
         <button id = "stop">Download</button>
       </div></div>
 </div>
-
+ <p id = "allData"></p>
 <div id = "myChart"></div>
+
 </div>
   </div>
+ 
 </body>
 
 </html>
@@ -156,7 +158,8 @@ console.log("response",data) ;
 }) // ajax success
 
 .fail(function (jqXHR, textStatus, errorThrown) { 
-alert("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown) ;
+  console.log("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown);
+// alert("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown) ;
 
 
 }); // ajax fail
@@ -218,17 +221,17 @@ while (true) {
       //  $('#dataX').text(value);
   // value is a Uint8Array.
   //$('#dataX').text(value);
-  //  console.log(value);
+    console.log(value);
   
-  
-  d.push(temp);
-  if (parseInt(temp.trim()) > 10  & cnt >= 0)
+  $("#allData").text(temp);
+  d.push(temp); // allow for ice
+  if (parseInt(temp.trim()) >= 1  & cnt >= 0)
     { 
       cnt++;
       let temp2 = temp.trim();
       let value2 = value.trim();
       value2 = parseInt(value2);
-     // console.log(cnt,temp2,value2);
+      console.log(cnt,temp2,value2);
   //    $('#serial').append(cnt + " " + value2 + "<br>");
     //  $('#dataY').text(value2);
     //  $('#dataX').text(cnt);
@@ -267,12 +270,12 @@ while (true) {
 .done(function (response) { 
 
 
-data = response;
+let nameData= response;
 // alert(data);
-if (data == 0)
+if (nameData == 0)
 {
   alert("Ready to go! Click start to begin.");
-  data = "Sensor name " + sensorName + " is available";
+  nameData = "Sensor name " + sensorName + " is available";
   $('#register').hide();
   $('#display').show();
   $('#nameSensor').text(sensorName);
@@ -280,16 +283,16 @@ if (data == 0)
 }
 else 
 { 
-  data = "Please choose another name for the data.";
-  alert(data);
+  nameData = "Please choose another name for the data.";
+  alert(nameData);
 }
 // data = JSON.parse(response) ;
-$('#message').text(data);
-console.log("response",response,data) ;
+$('#message').text(nameData);
+console.log("response",response,nameData) ;
 }) // ajax success
 
 .fail(function (jqXHR, textStatus, errorThrown) { 
-alert("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown) ;
+console.log("Failure " + jqXHR + ' ' + textStatus + ' that name is used.' + errorThrown) ;
 
 
 }); // ajax fail

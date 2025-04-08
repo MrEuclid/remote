@@ -127,7 +127,7 @@ Plotly.newPlot('myChart', dataGraph,layout);
         let readingID = dataX.length;
         dataX.push(readingID);
         dataY.push(y);
-        if (dataX.length > 1)
+        if (dataX.length >= 1)
         {stats(dataX,dataY);}
        // console.log("X",dataX);
        // console.log("Y",dataY);
