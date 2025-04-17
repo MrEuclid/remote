@@ -123,7 +123,12 @@ function lineGraph(xData,yData)
         type: 'scatter'
 };
 
-var dataGraph = [trace1];
+ var trace2 = {
+        x: xData,
+        y: zData,
+        type: 'scatter'
+};
+var dataGraph = [trace1,trace2];
 
 Plotly.newPlot('myChart', dataGraph,layout);
 }
@@ -219,8 +224,33 @@ for (let i = 0; i < l; i++)
 
 }
 // stats(dataX,dataY);
-lineGraph(dataX,dataY);
 
+var trace1 = {
+
+  x: dataX,
+
+  y: dataY,
+
+  type: 'scatter'
+
+};
+
+
+var trace2 = {
+
+  x: dataX,
+
+  y: dataZ,
+
+  type: 'scatter'
+
+};
+
+
+var data = [trace1, trace2];
+// lineGraph(dataX,[dataY,dataZ]);
+
+Plotly.newPlot('myChart', data);
 }) // ajax success
 
 .fail(function (jqXHR, textStatus, errorThrown) { 
