@@ -9,10 +9,10 @@ echo "connecting";
     mysqli_select_db($dbServer,$database) or die("Unable to select database: " . mysqli_error()) ;
 
  $sensor = $_POST['sensor'];
- $location = $_POST['location'];
+ $place = $_POST['place'];
  $value1 = $_POST['value1'];
  $value2 = $_POST['value2'];
- $value3 = 0;
+ $value3 = $_POST['value2'];;
 
 
 /*
@@ -24,11 +24,11 @@ echo "connecting";
  
 */
 $query = "INSERT INTO sensorData
-(sensor,location,value1,value2,value3)
+(sensor,place,value1,value2,value3)
 VALUES
 (
 '$sensor',
-'$location',
+'$place',
 '$value1',
 '$value2',
 '$value3'

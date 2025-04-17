@@ -7,7 +7,7 @@ include "connectDatabaseRemote.php";
 // read database and export for use in plotly
 
 $query = "SELECT id, value1,value2 
-				 FROM sensorData WHERE place = 'Home' ";
+				 FROM sensorData ";
 // echo "<br>" . $query . "<br>" ;
 //echo "JSON";
 //include "make_json_from_query.php";
