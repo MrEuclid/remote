@@ -11,7 +11,7 @@ include "connectDatabaseRemote.php";
         $file = fopen("data.csv","w");
       // $output = fopen("php://output", "w");  
      fputcsv($file, array('ID', 'sensor', 'X',"Y","Z","T"));  
-  	 $query = "SELECT * FROM sensorData  WHERE place = 'Home' ";
+  	 $query = "SELECT * FROM sensorData  ";
 
 
 		$result = mysqli_query($dbServer,$query);

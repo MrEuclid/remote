@@ -224,31 +224,33 @@ for (let i = 0; i < l; i++)
  var layout = {
     title: 'Sensor readings',
     xaxis: {type: "string",title:'Time'},
-    yaxis:{title:"Data",range: [20, 80]},
-    showlegend: false
+    yaxis:{title:"Data",range: [20, 100]},
+    showlegend: true
 };
 
-var trace1 = {
+var temperature = {
 
   x: dataX,
   y: dataY,
 
-  type: 'scatter'
+  type: 'scatter',
+  name: "Temperature"
 
 };
 
 
-var trace2 = {
+var humidity = {
 
   x: dataX,
   y: dataZ,
 
-  type: 'scatter'
+  type: 'scatter',
+  name: "Humidity"
 
 };
 
 
-var data = [trace1, trace2];
+var data = [temperature, humidity];
 //lineGraph(dataX,[dataY,dataZ]);
 
 Plotly.newPlot('myChart', data,layout);
@@ -265,4 +267,4 @@ alert("Failure " + jqXHR + ' ' + textStatus + ' error ' + errorThrown) ;
     })
  //     })
 </script>
--->
+
