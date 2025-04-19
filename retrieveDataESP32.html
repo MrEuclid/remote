@@ -115,37 +115,8 @@ select {
 
 </html>
 
-<!--
-<script type="text/javascript">
 
-function lineGraph(xData,yData)
-{
-       let maxY = parseInt(Math.max(...yData));
-       let minY = parseInt(Math.min(...yData));
-       TESTER2 = document.getElementById('myGraph');
-       var layout = {
-    title: 'Sensor readingss',
-    xaxis: {type: "string",title:'Time'},
-    yaxis:{title:"Data",range: [minY, maxY]},
-    showlegend: false
-};
-    var trace1 = {
-        x: xData,
-        y: yData,
-        type: 'scatter'
-};
 
- var trace2 = {
-        x: xData,
-        y: zData,
-        type: 'scatter'
-};
-var dataGraph = [trace1,trace2];
-
-Plotly.newPlot('myChart', dataGraph,layout);
-}
-</script>
--->
 <script>
 $(document).ready(function(){
 
@@ -245,9 +216,6 @@ let t = dataY[l-1];
 let h = dataZ[l-1] ;
 $('#count').text(l);
 
- // $('#t').text(t);
- // $('#h').text(h);
- 
  
  var data = [
 
@@ -258,7 +226,7 @@ $('#count').text(l);
     title: { text: "Temperature" },
     type: "indicator",
     mode: "gauge+number",
-   // delta: { reference: 400 },
+  //  delta: { reference: 33 },
 
     gauge: { axis: { range: [0, 50] } }
 
