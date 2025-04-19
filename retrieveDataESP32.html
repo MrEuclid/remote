@@ -11,6 +11,19 @@
     <link href = "remoteStyles.css"  rel = "stylesheet">
 <title>Retrieve data</title>
   <style type="text/css">
+    
+    body {
+  display: inline;
+}
+
+p {
+  display: inherit;
+  text-align:center;
+  font-weight: bold;
+  font-size: 1.2em;
+    
+}
+    
     #temp {
             width:60px; 
             height: 60px; 
@@ -34,11 +47,6 @@ h1 {
 
 
 
-p   {     
-      font-weight: bold;
-      font-size: 1.2em;
-      text-align: center;         
-    }
 
 select {
         background-color: lightblue;
@@ -53,7 +61,7 @@ select {
   #choosen {color:green;}
 
   button {margin: 2em; background-color: lightgreen; color:black;}
-  #count {text-align:center; }
+
   </style>
 
 </head>
@@ -65,22 +73,20 @@ select {
   <div class = "row justify-content-center">
 
   <h1 class = "c">Sensor Data</h1>
-  <p id = "count"></p>
-            </div></div>
-<div id = "register">
+     </div></div>
+     
+  <div class = "row justify-content-center">
+      <div class = "col-6">    
+ <p id = "t"></p>
+ </div>
 
-    <p id = "message"></p>
-</div>
+  
+   <div class = "col-6">
+  <p id = "h"></p>
+  </div></div>
+         
 
 
-
-
- <div class = "row justify-content-center">
-      <div class = "col- c">
-        <button id = "view">View</button>
-        <button id = "download">Download</button>
-       <button id = "link" ><a href = "data.csv">Data</a></button>
-      </div></div>
 
  <div class = "row justify-content-center">
       <div class = "col- c">
@@ -91,6 +97,17 @@ select {
       <div class = "col- c">
 <div id = "data"></div>
 </div></div>
+ <div class = "row justify-content-center">
+  <div class = "col-">
+  <p id = "count"></p>
+  </div></div>
+
+ <div class = "row justify-content-center">
+      <div class = "col- c">
+        <button id = "view">View</button>
+        <button id = "download">Download</button>
+       <button id = "link" ><a href = "data.csv">Data</a></button>
+      </div></div>
 
 </div>
   
@@ -205,7 +222,10 @@ dataY =[];
 dataZ = [];
 l = data.length;
 // alert(data);
-$('#count').text(l);
+
+
+
+
 for (let i = 0; i < l; i++)
 {
     let x = data[i].x;
@@ -221,39 +241,97 @@ for (let i = 0; i < l; i++)
 }
 // stats(dataX,dataY);
 
+let t = dataY[l-1];
+let h = dataZ[l-1] ;
+$('#count').text(l);
+
+ // $('#t').text(t);
+ // $('#h').text(h);
+ 
+ 
+ var data = [
+
+  {
+
+     domain: { x: [0, 1], y: [0, 1] },
+    value: t,
+    title: { text: "Temperature" },
+    type: "indicator",
+    mode: "gauge+number",
+   // delta: { reference: 400 },
+
+    gauge: { axis: { range: [0, 50] } }
+
+  }
+
+];
+let gaugeWidth = 300;
+let gaugeHeight = 300;
+
+
+var layout = { width:gaugeWidth, height:gaugeHeight };
+
+Plotly.newPlot('t', data, layout);
+
+var data = [
+
+  {
+
+     domain: { x: [0, 1], y: [0, 1] },
+    value: h,
+    title: { text: "Relative humidity" },
+    type: "indicator",
+    mode: "gauge+number",
+   // delta: { reference: 400 },
+
+    gauge: { axis: { range: [0, 100] } }
+
+  }
+
+];
+
+
+var layout = { width:gaugeWidth, height:gaugeHeight };
+
+Plotly.newPlot('h', data, layout);
+ 
+ 
  var layout = {
     title: 'Sensor readings',
     xaxis: {type: "string",title:'Time'},
-    yaxis:{title:"Data",range: [20, 100]},
-    showlegend: true
+    yaxis:{title:"Data",range: [20, 70]},
+    showlegend: false
 };
 
-var temperature = {
+var trace1 = {
 
   x: dataX,
   y: dataY,
 
-  type: 'scatter',
-  name: "Temperature"
+  type: 'scatter'
 
 };
 
 
-var humidity = {
+var trace2 = {
 
   x: dataX,
   y: dataZ,
 
-  type: 'scatter',
-  name: "Humidity"
+  type: 'scatter'
 
 };
 
 
-var data = [temperature, humidity];
+var data = [trace1, trace2];
 //lineGraph(dataX,[dataY,dataZ]);
 
 Plotly.newPlot('myChart', data,layout);
+
+
+
+
+
 }) // ajax success
 
 .fail(function (jqXHR, textStatus, errorThrown) { 
