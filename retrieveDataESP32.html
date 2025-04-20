@@ -9,6 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
     <link href = "remoteStyles.css"  rel = "stylesheet">
+  
 <title>Retrieve data</title>
   <style type="text/css">
     
@@ -115,8 +116,18 @@ select {
 
 </html>
 
+<script>
 
 
+function average(array)
+{
+  if (array.length == 0) return 0;
+  let sum = array.reduce((acc, curr) => acc + curr, 0);
+  let avg = sum / array.length;
+return avg;
+}
+
+</script>
 <script>
 $(document).ready(function(){
 
@@ -199,9 +210,9 @@ l = data.length;
 
 for (let i = 0; i < l; i++)
 {
-    let x = data[i].x;
-    let y = data[i].y;
-    let z = data[i].z;
+    let x = parseInt(data[i].x);
+    let y = parseInt(data[i].y);
+    let z = parseInt(data[i].z);
 
     dataX.push(x);
     dataY.push(y);
@@ -223,7 +234,7 @@ $('#count').text(l);
 
      domain: { x: [0, 1], y: [0, 1] },
     value: t,
-    title: { text: "Temperature" },
+    title: { text: "Temperature " + parseInt(average(dataY) + 0.5)},
     type: "indicator",
     mode: "gauge+number",
   //  delta: { reference: 33 },
@@ -247,7 +258,7 @@ var data = [
 
      domain: { x: [0, 1], y: [0, 1] },
     value: h,
-    title: { text: "Relative humidity" },
+    title: { text: "Relative humidity " + parseInt(average(dataZ) + 0.5)},
     type: "indicator",
     mode: "gauge+number",
    // delta: { reference: 400 },
@@ -265,7 +276,7 @@ Plotly.newPlot('h', data, layout);
  
  
  var layout = {
-    title: 'Sensor readings',
+    title: 'Sensor readings' ,
     xaxis: {type: "string",title:'Time'},
     yaxis:{title:"Data",range: [20, 70]},
     showlegend: false
@@ -295,8 +306,6 @@ var data = [trace1, trace2];
 //lineGraph(dataX,[dataY,dataZ]);
 
 Plotly.newPlot('myChart', data,layout);
-
-
 
 
 
