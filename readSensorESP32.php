@@ -19,7 +19,8 @@ $i = 0 ;
 
 WHILE ($data = mysqli_fetch_assoc($result2))
 {
-	$output[$i]["x"] = ($data["id"]*15 - 15) / 60;  // time in minutes
+//	$output[$i]["x"] = ($data["id"]*15 - 15) / 60;  // time in minutes
+	$output[$i]["x"] = $data["id"]; 
 	$output[$i]["y"] = $data["value1"];
 	$output[$i]["z"] = $data["value2"];
 	$i++;

@@ -223,6 +223,14 @@ for (let i = 0; i < l; i++)
 }
 // stats(dataX,dataY);
 
+
+let minX = Math.min(...dataX);
+for (let i = 0 ; i < dataX.length;i++)
+  {
+    dataX[i] = dataX[i] - minX;
+  }
+console.log(minX);
+console.log(dataX);
 let t = dataY[l-1];
 let h = dataZ[l-1] ;
 $('#count').text(l);
