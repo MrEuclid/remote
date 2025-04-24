@@ -4,7 +4,15 @@
 
  include "../connectTempleDB.php";
 
-  $team = $_POST['teamName'];
+  $team = $_POST['team'];
+// $team = "Rabbit*34";
+  // split on asterisk
+ // echo "Team was =  " . $team . "<br>";
+
+ $t =  explode("*",$team);
+
+ $t0 = $t[0];
+// echo "Team =>" . $t0 . "<br>";
 
 // $team = 'student';
 
@@ -15,7 +23,9 @@ $i = 0;
 
 
 $query = "SELECT question FROM mathsCompetitionResults
-			WHERE  teamName = '$team'  ";
+			WHERE  teamName = '$t0'  ";
+
+// echo "<br>" . $query. "<br>";
 
 $result = mysqli_query($dbServer,$query) ;
 
