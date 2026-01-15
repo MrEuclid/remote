@@ -5,7 +5,7 @@
 include "../connectTempleDB.php";
 
  $sensor = $_POST['sensorName'];
-// $sensor = "office" ;
+ // $sensor = "G11test2" ;
     //  header('Content-Type: text/csv; charset=utf-8');  
     //  header('Content-Disposition: attachment; filename=data.csv');  
         $file = fopen("data.csv","w");
